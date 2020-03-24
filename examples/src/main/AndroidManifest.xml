@@ -24,8 +24,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CoreActivity"
-            android:screenOrientation="portrait" >
+        <activity android:name=".CoreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
@@ -160,8 +159,7 @@
         </activity>
 
         <activity android:name=".core.InstructionViewActivity"
-            android:label="@string/title_instruction_view"
-            android:screenOrientation="portrait">
+            android:label="@string/title_instruction_view">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CoreActivity" />

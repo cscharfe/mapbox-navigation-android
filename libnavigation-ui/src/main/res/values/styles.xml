@@ -81,4 +81,26 @@
         <item name="mapbox_trackingGesturesManagement">true</item>
     </style>
 
+    <!-- Default InstructionView style -->
+    <style name="InstructionView">
+        <item name="instructionViewBackgroundColor">?attr/navigationViewBannerBackground</item>
+        <item name="instructionListViewBackgroundColor">?attr/navigationViewListBackground</item>
+        <item name="instructionViewPrimaryTextColor">?attr/navigationViewBannerPrimaryText</item>
+        <item name="instructionViewSecondaryTextColor">?attr/navigationViewBannerSecondaryText</item>
+        <item name="instructionManeuverViewPrimaryColor">?attr/navigationViewBannerManeuverPrimary</item>
+        <item name="instructionManeuverViewSecondaryColor">?attr/navigationViewBannerManeuverSecondary</item>
+    </style>
+
+    <!-- Default SoundButton style -->
+    <style name="SoundButton">
+        <item name="soundButtonPrimaryColor">?attr/navigationViewPrimary</item>
+        <item name="soundButtonSecondaryColor">?attr/navigationViewSecondary</item>
+    </style>
+
+    <!-- Default FeedbackButton style -->
+    <style name="FeedbackButton">
+        <item name="feedbackButtonPrimaryColor">?attr/navigationViewPrimary</item>
+        <item name="feedbackButtonSecondaryColor">?attr/navigationViewSecondary</item>
+    </style>
+
 </resources>

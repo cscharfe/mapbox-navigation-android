@@ -50,6 +50,11 @@ class CoreActivity : AppCompatActivity() {
                 SimpleMapboxNavigationKt::class.java
             ),
             SampleItem(
+                getString(R.string.title_instruction_view),
+                getString(R.string.description_instruction_view),
+                InstructionViewActivity::class.java
+            ),
+            SampleItem(
                 getString(R.string.title_offboard_router_java),
                 getString(R.string.description_offboard_router_java),
                 OffboardRouterActivityJava::class.java
@@ -103,11 +108,6 @@ class CoreActivity : AppCompatActivity() {
                 getString(R.string.title_faster_route),
                 getString(R.string.description_faster_route),
                 FasterRouteActivity::class.java
-            ),
-            SampleItem(
-                getString(R.string.title_instruction_view),
-                getString(R.string.description_instruction_view),
-                InstructionViewActivity::class.java
             ),
             SampleItem(
                 getString(R.string.title_summary_bottom_sheet),

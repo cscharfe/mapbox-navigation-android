@@ -15,6 +15,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -105,6 +106,18 @@ public class AlertView extends CardView {
    */
   public String getAlertText() {
     return alertText.getText().toString();
+  }
+
+  /**
+   * Sets the text color for all the states (normal, selected,
+   * focused) to be this color.
+   *
+   * @param textColor A color value in the form 0xAARRGGBB.
+   * Do not pass a resource ID.
+   *
+   */
+  public void setAlertTextColor(@ColorInt int textColor) {
+    alertText.setTextColor(textColor);
   }
 
   private void init() {

@@ -49,6 +49,7 @@
 
     <com.mapbox.navigation.ui.instruction.InstructionView
         android:id="@+id/instructionView"
+        style="@style/InstructionView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="top"
@@ -57,4 +58,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

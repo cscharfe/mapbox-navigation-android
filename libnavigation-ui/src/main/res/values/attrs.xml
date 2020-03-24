@@ -38,10 +38,10 @@
     <attr name="navigationViewDivider" format="color"/>
 
     <!-- Instruction List -->
-    <attr name="navigationViewListBackground" format="color"/>
+    <attr name="navigationViewListBackground" format="color"/><!-- Done -->
 
     <!-- Banner -->
-    <attr name="navigationViewBannerBackground" format="color"/>
+    <attr name="navigationViewBannerBackground" format="color"/><!-- Done -->
     <attr name="navigationViewBannerPrimaryText" format="color"/>
     <attr name="navigationViewBannerSecondaryText" format="color"/>
     <attr name="navigationViewBannerManeuverPrimary" format="color"/>
@@ -74,5 +74,24 @@
   <declare-styleable name="ManeuverView">
     <attr name="maneuverViewPrimaryColor" format="color"/>
     <attr name="maneuverViewSecondaryColor" format="color"/>
+  </declare-styleable>
+
+  <declare-styleable name="InstructionView">
+    <attr name="instructionViewBackgroundColor" format="reference|color"/>
+    <attr name="instructionListViewBackgroundColor" format="reference|color"/>
+    <attr name="instructionViewPrimaryTextColor" format="reference|color"/>
+    <attr name="instructionViewSecondaryTextColor" format="reference|color"/>
+    <attr name="instructionManeuverViewPrimaryColor" format="reference|color"/>
+    <attr name="instructionManeuverViewSecondaryColor" format="reference|color"/>
+  </declare-styleable>
+
+  <declare-styleable name="SoundButton">
+    <attr name="soundButtonPrimaryColor" format="reference|color"/>
+    <attr name="soundButtonSecondaryColor" format="reference|color"/>
+  </declare-styleable>
+
+  <declare-styleable name="FeedbackButton">
+    <attr name="feedbackButtonPrimaryColor" format="reference|color"/>
+    <attr name="feedbackButtonSecondaryColor" format="reference|color"/>
   </declare-styleable>
 </resources>

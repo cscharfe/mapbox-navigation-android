@@ -8,6 +8,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import com.mapbox.android.core.location.LocationEngine
@@ -276,7 +277,10 @@ class InstructionViewActivity : AppCompatActivity(), OnMapReadyCallback,
         supportFragmentManager?.let {
             FeedbackBottomSheet.newInstance(
                 this,
-                NavigationConstants.FEEDBACK_BOTTOM_SHEET_DURATION
+                NavigationConstants.FEEDBACK_BOTTOM_SHEET_DURATION,
+                ContextCompat.getColor(applicationContext, android.R.color.holo_blue_bright),
+                ContextCompat.getColor(applicationContext, android.R.color.holo_blue_bright),
+                ContextCompat.getColor(applicationContext, android.R.color.holo_blue_bright)
             )
                 .show(it, FeedbackBottomSheet.TAG)
         }

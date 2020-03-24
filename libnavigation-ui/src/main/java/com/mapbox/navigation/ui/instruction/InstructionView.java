@@ -3,8 +3,8 @@ package com.mapbox.navigation.ui.instruction;
 import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -48,7 +49,6 @@ import com.mapbox.navigation.ui.FeedbackButton;
 import com.mapbox.navigation.ui.NavigationButton;
 import com.mapbox.navigation.ui.NavigationViewModel;
 import com.mapbox.navigation.ui.SoundButton;
-import com.mapbox.navigation.ui.ThemeSwitcher;
 import com.mapbox.navigation.ui.feedback.FeedbackBottomSheet;
 import com.mapbox.navigation.ui.feedback.FeedbackBottomSheetListener;
 import com.mapbox.navigation.ui.feedback.FeedbackItem;
@@ -92,6 +92,7 @@ public class InstructionView extends RelativeLayout implements LifecycleObserver
   private TextView subStepText;
   private NavigationAlertView alertView;
   private View rerouteLayout;
+  private TextView rerouteText;
   private View turnLaneLayout;
   private View subStepLayout;
   private ImageView guidanceViewImage;
@@ -117,6 +118,13 @@ public class InstructionView extends RelativeLayout implements LifecycleObserver
   private String guidanceImageUrl = "";
   private RouteJunction routeJunction = null;
 
+  private int backgroundColor;
+  private int listViewBackgroundColor;
+  private int primaryTextColor;
+  private int secondaryTextColor;
+  private int maneuverViewPrimaryColor;
+  private int maneuverViewSecondaryColor;
+
   public InstructionView(Context context) {
     this(context, null);
   }
@@ -127,6 +135,7 @@ public class InstructionView extends RelativeLayout implements LifecycleObserver
 
   public InstructionView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
+    initializeAttributes(attrs);
     initialize();
   }
 
@@ -149,7 +158,8 @@ public class InstructionView extends RelativeLayout implements LifecycleObserver
   protected void onFinishInflate() {
     super.onFinishInflate();
     bind();
-    initializeBackground();
+    applyCustomizedAttributes();
+    initializeBackgroundTint();
     initializeTurnLaneRecyclerView();
     initializeInstructionListRecyclerView();
     initializeAnimations();
@@ -481,6 +491,41 @@ public class InstructionView extends RelativeLayout implements LifecycleObserver
     return alertView;
   }
 
+  private void initializeAttributes(AttributeSet attributeSet) {
+    TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.InstructionView);
+    backgroundColor = ContextCompat.getColor(getContext(),
+      typedArray.getResourceId(
+        R.styleable.InstructionView_instructionViewBackgroundColor,
+        R.color.mapbox_instruction_view_background));
+
+    listViewBackgroundColor = ContextCompat.getColor(getContext(),
+      typedArray.getResourceId(
+        R.styleable.InstructionView_instructionListViewBackgroundColor,
+        R.color.mapbox_instruction_list_view_background));
+
+    primaryTextColor = ContextCompat.getColor(getContext(),
+      typedArray.getResourceId(
+        R.styleable.InstructionView_instructionViewPrimaryTextColor,
+        R.color.mapbox_instruction_view_primary_text));
+
+    secondaryTextColor = ContextCompat.getColor(getContext(),
+      typedArray.getResourceId(
+        R.styleable.InstructionView_instructionViewSecondaryTextColor,
+        R.color.mapbox_instruction_view_secondary_text));
+
+    maneuverViewPrimaryColor = ContextCompat.getColor(getContext(),
+      typedArray.getResourceId(
+        R.styleable.InstructionView_instructionManeuverViewPrimaryColor,
+        R.color.mapbox_instruction_maneuver_view_primary));
+
+    maneuverViewSecondaryColor = ContextCompat.getColor(getContext(),
+      typedArray.getResourceId(
+        R.styleable.InstructionView_instructionManeuverViewSecondaryColor,
+        R.color.mapbox_instruction_maneuver_view_secondary));
+
+    typedArray.recycle();
+  }
+
   /**
    * Inflates this layout needed for this view and initializes the locale as the device locale.
    */
@@ -504,6 +549,7 @@ public class InstructionView extends RelativeLayout implements LifecycleObserver
     subStepText = findViewById(R.id.subStepText);
     alertView = findViewById(R.id.alertView);
     rerouteLayout = findViewById(R.id.rerouteLayout);
+    rerouteText = findViewById(R.id.rerouteText);
     turnLaneLayout = findViewById(R.id.turnLaneLayout);
     subStepLayout = findViewById(R.id.subStepLayout);
     guidanceViewImage = findViewById(R.id.guidanceImageView);
@@ -517,29 +563,44 @@ public class InstructionView extends RelativeLayout implements LifecycleObserver
   }
 
   /**
-   * For API 21 and lower, manually set the drawable tint based on the colors
-   * set in the given navigation theme (light or dark).
+   * Use customized attributes to update view colors
    */
-  private void initializeBackground() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-      int navigationViewBannerBackgroundColor = ThemeSwitcher.retrieveThemeColor(getContext(),
-          R.attr.navigationViewBannerBackground);
-      int navigationViewListBackgroundColor = ThemeSwitcher.retrieveThemeColor(getContext(),
-          R.attr.navigationViewListBackground);
-      // Instruction Layout landscape - banner background
-      if (isLandscape()) {
-        View instructionLayoutManeuver = findViewById(R.id.instructionManeuverLayout);
-        Drawable maneuverBackground = DrawableCompat.wrap(instructionLayoutManeuver.getBackground()).mutate();
-        DrawableCompat.setTint(maneuverBackground, navigationViewBannerBackgroundColor);
+  private void applyCustomizedAttributes() {
+    if (isLandscape()) {
+      instructionLayoutText.setBackgroundColor(backgroundColor);
+    } else {
+      instructionLayout.setBackgroundColor(backgroundColor);
+    }
+    instructionListLayout.setBackgroundColor(listViewBackgroundColor);
 
-        View subStepLayout = findViewById(R.id.subStepLayout);
-        Drawable subStepBackground = DrawableCompat.wrap(subStepLayout.getBackground()).mutate();
-        DrawableCompat.setTint(subStepBackground, navigationViewListBackgroundColor);
+    upcomingPrimaryText.setTextColor(primaryTextColor);
+    upcomingSecondaryText.setTextColor(secondaryTextColor);
+    upcomingDistanceText.setTextColor(secondaryTextColor);
+    rerouteText.setTextColor(primaryTextColor);
 
-        View turnLaneLayout = findViewById(R.id.turnLaneLayout);
-        Drawable turnLaneBackground = DrawableCompat.wrap(turnLaneLayout.getBackground()).mutate();
-        DrawableCompat.setTint(turnLaneBackground, navigationViewListBackgroundColor);
-      }
+    upcomingManeuverView.setPrimaryColor(maneuverViewPrimaryColor);
+    upcomingManeuverView.setSecondaryColor(maneuverViewSecondaryColor);
+
+    alertView.setCardBackgroundColor(backgroundColor);
+    alertView.setAlertTextColor(primaryTextColor);
+  }
+
+  /**
+   * For landscape orientation, manually set the drawable tint based on the customized colors.
+   */
+  private void initializeBackgroundTint() {
+    if (isLandscape()) {
+      View instructionLayoutManeuver = findViewById(R.id.instructionManeuverLayout);
+      Drawable maneuverBackground = DrawableCompat.wrap(instructionLayoutManeuver.getBackground()).mutate();
+      DrawableCompat.setTint(maneuverBackground, backgroundColor);
+
+      View subStepLayout = findViewById(R.id.subStepLayout);
+      Drawable subStepBackground = DrawableCompat.wrap(subStepLayout.getBackground()).mutate();
+      DrawableCompat.setTint(subStepBackground, listViewBackgroundColor);
+
+      View turnLaneLayout = findViewById(R.id.turnLaneLayout);
+      Drawable turnLaneBackground = DrawableCompat.wrap(turnLaneLayout.getBackground()).mutate();
+      DrawableCompat.setTint(turnLaneBackground, listViewBackgroundColor);
     }
   }
 
@@ -559,6 +620,8 @@ public class InstructionView extends RelativeLayout implements LifecycleObserver
    */
   private void initializeInstructionListRecyclerView() {
     instructionListAdapter = new InstructionListAdapter(distanceFormatter);
+    instructionListAdapter.setColors(primaryTextColor, secondaryTextColor,
+      maneuverViewPrimaryColor, maneuverViewSecondaryColor);
     rvInstructions.setAdapter(instructionListAdapter);
     rvInstructions.setHasFixedSize(true);
     rvInstructions.setLayoutManager(new LinearLayoutManager(getContext()));
