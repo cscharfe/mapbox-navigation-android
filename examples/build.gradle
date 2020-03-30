@@ -99,10 +99,8 @@ dependencies {
     implementation dependenciesList.mapboxAnnotationPlugin
     implementation dependenciesList.mapboxSdkTurf
 
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestUtil 'androidx.test:orchestrator:1.2.0'
-
     androidTestImplementation project(':libtesting-ui')
+    androidTestUtil dependenciesList.testOrchestrator
 
     //ktlint
     ktlint dependenciesList.ktlint
