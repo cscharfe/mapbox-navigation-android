@@ -8,5 +8,14 @@
 
     <include layout="@layout/content_simple_mapbox_navigation" />
 
+    <!--Remove after testing rl-237-sdk-nn-sync-in-polling-->
+    <Button
+        android:id="@+id/btn_clear_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="200dp"
+        android:text="clear"/>
+
     <include layout="@layout/bottom_sheet_faster_route" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

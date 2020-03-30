@@ -1,7 +1,6 @@
 package com.mapbox.navigation.examples.core
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -14,7 +13,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mapbox.android.core.location.LocationEngine
 import com.mapbox.android.core.location.LocationEngineCallback
@@ -37,10 +35,6 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
-import com.mapbox.mapboxsdk.style.expressions.Expression.eq
-import com.mapbox.mapboxsdk.style.expressions.Expression.literal
-import com.mapbox.mapboxsdk.style.layers.CircleLayer
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.navigation.base.extensions.applyDefaultParams
 import com.mapbox.navigation.base.extensions.coordinates
 import com.mapbox.navigation.base.options.NavigationOptions
@@ -135,6 +129,12 @@ class SimpleMapboxNavigationKt : AppCompatActivity(), OnMapReadyCallback,
                 mapboxNavigation.setRoutes(emptyList())
             }
         }
+//        TODO: Remove after testing rl-237-sdk-nn-sync-in-polling
+        findViewById<Button>(R.id.btn_clear_points)?.let { button ->
+            button.setOnClickListener {
+                symbolManager?.deleteAll()
+            }
+        }
         initViews()
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
@@ -207,6 +207,7 @@ class SimpleMapboxNavigationKt : AppCompatActivity(), OnMapReadyCallback,
             }
             symbolManager = SymbolManager(mapView, mapboxMap, style)
             style.addImage("marker", IconFactory.getInstance(this).defaultMarker().bitmap)
+//            TODO: Remove after testing rl-237-sdk-nn-sync-in-polling
             style.addImage("raw", ContextCompat.getDrawable(this, R.drawable.ic_circle_red)!!)
             style.addImage("enhanced", ContextCompat.getDrawable(this, R.drawable.ic_circle_blue)!!)
 
@@ -262,6 +263,7 @@ class SimpleMapboxNavigationKt : AppCompatActivity(), OnMapReadyCallback,
 
     private val locationObserver = object : LocationObserver {
         override fun onRawLocationChanged(rawLocation: Location) {
+//            TODO: Remove after testing rl-237-sdk-nn-sync-in-polling
             symbolManager?.create(
                     SymbolOptions()
                             .withIconImage("raw")
@@ -274,6 +276,7 @@ class SimpleMapboxNavigationKt : AppCompatActivity(), OnMapReadyCallback,
             enhancedLocation: Location,
             keyPoints: List<Location>
         ) {
+//            TODO: Remove after testing rl-237-sdk-nn-sync-in-polling
             symbolManager?.create(
                     SymbolOptions()
                             .withIconImage("enhanced")
