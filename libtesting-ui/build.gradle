@@ -14,6 +14,9 @@ android {
 }
 
 dependencies {
+    api 'androidx.test:runner:1.2.0'
+    api 'androidx.test:orchestrator:1.2.0'
+
     api dependenciesList.androidxTestJunit
     api dependenciesList.junit
     api(dependenciesList.barista) {
