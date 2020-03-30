@@ -45,6 +45,10 @@ android {
         buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
     }
 
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
+
     signingConfigs {
         release {
             keyAlias System.getenv("CIRCLECI_ANDROID_KEYSTORE_ALIAS")
@@ -94,6 +98,9 @@ dependencies {
     implementation project(':libnavigation-ui')
     implementation dependenciesList.mapboxAnnotationPlugin
     implementation dependenciesList.mapboxSdkTurf
+
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestUtil 'androidx.test:orchestrator:1.1.0'
 
     androidTestImplementation project(':libtesting-ui')
 
